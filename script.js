@@ -3,29 +3,31 @@ getSumBtn.append("Get Total Price");
 document.body.appendChild(getSumBtn);
 
 const getSum = () => {
-  // Select all price elements
-  const prices = document.querySelectorAll(".price");
+  // Get all price cells (Cypress expects .prices)
+  const prices = document.querySelectorAll(".prices");
 
   let total = 0;
 
-  // Calculate total price
-  prices.forEach((price) => {
-    total += Number(price.textContent);
+  prices.forEach((p) => {
+    total += Number(p.textContent);
   });
 
-  // Get the table
-  const table = document.querySelector("table");
+  // Check if total row already exists
+  let ansCell = document.getElementById("ans");
 
-  // Create new row and cell
-  const totalRow = document.createElement("tr");
-  const totalCell = document.createElement("td");
+  if (!ansCell) {
+    const table = document.querySelector("table");
+    const row = document.createElement("tr");
+    ansCell = document.createElement("td");
 
-  totalCell.colSpan = 2;
-  totalCell.textContent = `Total Price: Rs ${total}`;
+    ansCell.id = "ans";
+    ansCell.colSpan = 2;
 
-  totalRow.appendChild(totalCell);
-  table.appendChild(totalRow);
+    row.appendChild(ansCell);
+    table.appendChild(row);
+  }
+
+  ansCell.textContent = total;
 };
 
 getSumBtn.addEventListener("click", getSum);
-
